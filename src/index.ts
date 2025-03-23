@@ -1,5 +1,6 @@
 import { defineExtension } from 'reactive-vscode'
 import * as vscode from 'vscode'
+import { generateUrl } from './utils'
 
 const { activate, deactivate } = defineExtension((context) => {
   const disposable = vscode.commands.registerCommand('regexp-visualizer.show', () => {
@@ -8,13 +9,13 @@ const { activate, deactivate } = defineExtension((context) => {
       return
     }
     const selection = editor.selection
-    let text = editor.document.getText(selection)
+    let text = editor.document.getText(selection).trim()
     if (!text) {
       return
     }
-    const validRegex = /^\/.*\/[gimuy]*$/
+    const validRegex = /^\/.*\/[dgimuvys]*$/
     if (!validRegex.test(text)) {
-      vscode.window.showErrorMessage('Invalid regex')
+      vscode.window.showErrorMessage('Invalid regex', 'Close')
       return
     }
     const panel = vscode.window.createWebviewPanel(
@@ -26,11 +27,8 @@ const { activate, deactivate } = defineExtension((context) => {
         retainContextWhenHidden: true,
       },
     )
+    const url = generateUrl(text, '')
 
-    const flags = text.match(/\/([gimuy]*)$/)?.[1] || ''
-    text = text.replace(/^\/|\/[gimuy]*$/g, '').replace(/^\/|\/$/, '')
-    text = encodeURIComponent(text)
-    const url = `https://jex.im/regulex/#!flags=${flags}&re=${text}`
     const str = `
 <html>
   <head>

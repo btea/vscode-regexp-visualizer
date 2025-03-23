@@ -49,8 +49,18 @@
     },
     "configuration": {
       "type": "object",
-      "title": "ext-name",
-      "properties": {}
+      "title": "RegExp Visualizer Configuration",
+      "properties": {
+        "regexp-visualizer.url": {
+          "type": "string",
+          "default": "https://jex.im/regulex/",
+          "enum": [
+            "https://jex.im/regulex/",
+            "https://regex-vis.com/"
+          ],
+          "description": "The URL of the regexp visualizer"
+        }
+      }
     }
   },
   "scripts": {
