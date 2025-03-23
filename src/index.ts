@@ -9,7 +9,7 @@ const { activate, deactivate } = defineExtension((context) => {
       return
     }
     const selection = editor.selection
-    let text = editor.document.getText(selection).trim()
+    const text = editor.document.getText(selection).trim()
     if (!text) {
       return
     }
